@@ -55,6 +55,7 @@
 		
 			<th>Users</th>
 		</tr>
+		<%if(request.getAttribute("score")!=null){%>
 			<% ArrayList<User> all_users = (ArrayList<User>) request.getAttribute("allUsers"); %>
 		<% for(User user_ : all_users) { %>
 		<tr>
@@ -62,6 +63,7 @@
 					
 					<td><a href= "">Contact</a></td>
 		</tr>
+		<%}%>
 		<%}%>
 		
 	

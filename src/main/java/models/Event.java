@@ -3,13 +3,19 @@ import java.util.Date;
 
 public class Event {
 	
-	private Date date;
-    private String titre;
+	private String date;
+    private String title;
      
-    public Event(String titre, Date date) {
-    this.titre = titre;
+    public Event(String title, String date) {
+    this.title = title;
     this.date = date;
     }
     
+    public String getTitle() {
+    	return this.title;
+    }
     
+    public String getDate() {
+    	return this.date;
+    }
 }

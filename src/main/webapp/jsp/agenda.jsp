@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="models.Event" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,24 +9,24 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-<h2>User's Agenda</h2>
+<% String user_name = (String) request.getAttribute("userName"); %>
+<% ArrayList<Event> user_events = (ArrayList<Event>) request.getAttribute("userEvents"); %>
+<h2><%= user_name %>'s Agenda</h2>
 
 <div>
 	<h3>Add event</h3>
 		<form action="#" method="Post" id="formAddEvent">
 			<div>
 				<label>Description</label>
-				<input type="text" id="eventDescription" name="eventDescription">
+				<input type="text" id="eventTitle" name="eventTitle" required>
 			</div>
 			<div>
 				<label>Date</label>
-				<input type="text" id="eventDate" name="eventDate">
+				<input type="date" id="eventDate" name="eventDate" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
 			</div>
-			<input type="submit" value="addEvent" name="addEvent">
+			<input type="submit" value="Add to my agenda" name="addEvent">
 		
 		</form>
-		
 	</div>
 
 <div>
@@ -34,16 +36,14 @@
 			<th>Date</th>
 			<th>Event</th>
 		</tr>
-			<%-- <% ArrayList<Livre> all_books = (ArrayList<Livre>) request.getAttribute("library"); %>
-		<% for(Livre book_ : all_books) { %>
+		<% for(Event event_ : user_events) { %>
 		<tr>
-					<td><%= book_.getReference() %></td>
-					<td><%= book_.getTitle() %></td>
-					<td><%= book_.getAuthor() %></td>
-					<td><a href= "bibliotheque?action=delete&reference=<%=book_.getReference()%>">Supprimer</a></td>
-					<td><a href= "bibliotheque?action=modify&reference=<%=book_.getReference()%>">Modifier</a></td>
+					<td><%= event_.getTitle() %></td>
+					<td><%= event_.getDate() %></td>
+					<%-- <td><a href= "bibliotheque?action=delete&reference=<%=book_.getReference()%>">Supprimer</a></td>
+					<td><a href= "bibliotheque?action=modify&reference=<%=book_.getReference()%>">Modifier</a></td> --%>
 		</tr>
-		<%}%> --%>
+		<%}%>
 		
 	
 	</table>

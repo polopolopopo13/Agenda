@@ -3,7 +3,7 @@ package models;
 public class User {
 	private String user_name;
 	private String password;
-	private Agenda my_agenda;
+	private Agenda my_agenda = new Agenda(this);
 	
 	public User(String name_, String password_) {
 		this.user_name = name_;

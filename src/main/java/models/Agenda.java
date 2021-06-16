@@ -5,7 +5,7 @@ import java.util.ArrayList;
 //d'évènements datés
 
 public class Agenda {
-	public ArrayList<Event> my_events;
+	public ArrayList<Event> my_events = new ArrayList<Event>();
 	public User owner;
 	
 	public Agenda(User owner_) {
