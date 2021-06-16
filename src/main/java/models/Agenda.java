@@ -17,6 +17,7 @@ public class Agenda {
 	}
 	
 	public ArrayList<Event> getEvents(){
+		//will have to be sorted
 		return this.my_events;
 	}
 	

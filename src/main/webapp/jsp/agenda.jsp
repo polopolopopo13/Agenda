@@ -40,8 +40,8 @@
 		<tr>
 					<td><%= event_.getTitle() %></td>
 					<td><%= event_.getDate() %></td>
-					<%-- <td><a href= "bibliotheque?action=delete&reference=<%=book_.getReference()%>">Supprimer</a></td>
-					<td><a href= "bibliotheque?action=modify&reference=<%=book_.getReference()%>">Modifier</a></td> --%>
+					<td><a href= "agenda?action=delete&reference=<%=event_.getReference()%>">Delete</a></td>
+					<td><a href= "agenda?action=modify&reference=<%=event_.getReference()%>">Modify</a></td>
 		</tr>
 		<%}%>
 		

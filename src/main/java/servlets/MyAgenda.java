@@ -58,7 +58,7 @@ public class MyAgenda extends HttpServlet {
 		String event_title = request.getParameter("eventTitle");
 		String event_date = request.getParameter("eventDate");
 		if (request.getParameter("addEvent") != null) {
-			Event e_ = new Event(event_title, event_date);
+			Event e_ = new Event(event_title, event_date, getUser().getUserName());
 			userAgenda.addEvent(e_);	
 		}
 		
@@ -66,5 +66,9 @@ public class MyAgenda extends HttpServlet {
 		doGet(request, response);
 	}
 
+	
+	public User getUser() {
+		return this.user;
+	}
 	
 }
