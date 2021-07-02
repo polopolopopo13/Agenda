@@ -18,6 +18,8 @@
 <% String user_name = (String) request.getAttribute("userName"); %>
 <% Month month = (Month) request.getAttribute("month"); %>
 <% ArrayList<Event> user_events = (ArrayList<Event>) request.getAttribute("userEvents"); %>
+<% ArrayList<Event> incoming_events = (ArrayList<Event>) request.getAttribute("incoming_e"); %>
+
 
 <h2><%= user_name %>'s Agenda</h2>
 
@@ -84,16 +86,15 @@
 			<th scope="col">Date</th>
 			<th scope="col">Event</th>
 		</tr> 
-		<% if(!user_events.isEmpty()){ %>
-		<% for(Event event_ : user_events) { %>
-		<% if(event_.isIncoming()){ %>
+		<% if(!incoming_events.isEmpty()){ %>
+		<% for(Event event_ : incoming_events) { %>
 			<tr>
 				<td><%= event_.getDate() %></td>
 				<td><%= event_.getDescription()%></td>
 				<td><a href= "?action=delete&reference=<%=event_.getId()%>">Delete</a></td>
 				<td><a href= "?action=modify&reference=<%=event_.getId()%>">Modify</a></td>
 			</tr>
-		<%}}}%>
+		<%}}%>
 	</table>
 	
 	

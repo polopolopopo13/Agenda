@@ -94,6 +94,7 @@ public class MyAgenda extends HttpServlet {
 			}
 		}
 		
+		request.setAttribute("incoming_e", getIncomingEvent());
 		request.setAttribute("userName", user.getName());
 		request.setAttribute("userEvents", user.getAgenda());
 		request.setAttribute("month", month);
@@ -130,6 +131,36 @@ public class MyAgenda extends HttpServlet {
 		
 		doGet(request, response);
 	}
+	
+	
+	
+	public ArrayList<Event> getIncomingEvent(){
+		ArrayList<Event> incoming_e = new ArrayList<Event>();
+		int user_id = this.user.getId();
+		String query = "SELECT user_id, id, description, datum FROM events WHERE user_id = ? AND datum>=?;";
+		
+		java.sql.Date today_ = java.sql.Date.valueOf(LocalDate.now());
+		System.out.println(today_);
+
+		try {
+			PreparedStatement prep = DbConnect.getConnector().prepareStatement(query);
+			prep.setInt( 1, user_id );
+			prep.setDate( 2, today_ );
+			ResultSet result =  prep.executeQuery();
+				while(result.next()) {
+					String descript_ = result.getString("description");
+					Date datum = result.getDate("datum");
+					int e_id = result.getInt("user_id");
+					Event event_ = new Event(descript_, datum, user_id, e_id);
+					incoming_e.add(event_);
+				}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return incoming_e;
+	}
+	
+	
 	
 	public void delEvent(String id_s) {
 		int id_ = Integer.valueOf(id_s);

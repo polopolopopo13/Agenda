@@ -30,14 +30,6 @@ public class Event implements Crud{
     
     
     
-    public Boolean isIncoming() {
-    	Calendar cal = Calendar.getInstance();
-    	if(getDate().after(cal.getTime())) {
-    		return true;
-    	}
-    	return false;
-    }
-    
     public int getUserId() {
     	return this.user_id;
     }
