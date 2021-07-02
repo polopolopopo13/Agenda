@@ -54,9 +54,7 @@ public class MyAgenda extends HttpServlet {
 		
 		this.session = request.getSession();
 		this.user = (User) request.getSession().getAttribute("user_");
-		
 		Calendar c = Calendar.getInstance();
-		
 		
 		if(request.getParameter("date") != null) {
 			try {
@@ -73,12 +71,9 @@ public class MyAgenda extends HttpServlet {
 		else {
 			java.sql.Date d = java.sql.Date.valueOf(LocalDate.now());
 			c.setTime(d);
-		}	
+		}
 		
-//		int maxDay = c.getActualMaximum(Calendar.DAY_OF_MONTH);
-//		int minDay = c.getActualMinimum(Calendar.DAY_OF_MONTH);
 		Month month = new Month(c.get(Calendar.MONTH), c.get(Calendar.YEAR), this.user.getId());
-		
 		
 		
 		if(request.getParameter("action") != null && request.getParameter("reference") != null) {
@@ -94,10 +89,12 @@ public class MyAgenda extends HttpServlet {
 			}
 		}
 		
+		
 		request.setAttribute("incoming_e", getIncomingEvent());
 		request.setAttribute("userName", user.getName());
 		request.setAttribute("userEvents", user.getAgenda());
 		request.setAttribute("month", month);
+		
 		this.getServletContext().getRequestDispatcher("/jsp/myAgenda.jsp").forward(request, response);
 	}
 
@@ -150,7 +147,7 @@ public class MyAgenda extends HttpServlet {
 				while(result.next()) {
 					String descript_ = result.getString("description");
 					Date datum = result.getDate("datum");
-					int e_id = result.getInt("user_id");
+					int e_id = result.getInt("id");
 					Event event_ = new Event(descript_, datum, user_id, e_id);
 					incoming_e.add(event_);
 				}
