@@ -1,6 +1,11 @@
 package servlets;
-
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 import models.User;
 import models.UserLibrary;
@@ -27,16 +34,11 @@ public class Accueil extends HttpServlet {
     public Accueil() {
         super();
         // TODO Auto-generated constructor stub
-//        library_user.addUser("Admin", "monadminfrance");
         System.out.println("hello");
-//        System.out.println(getLibraryUser().getUsers());
     }
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-			request.setAttribute("allUsers", getLibraryUser().getUsers());
 			
 			this.getServletContext().getRequestDispatcher("/jsp/accueil.jsp").forward(request, response);
 	}
@@ -47,20 +49,21 @@ public class Accueil extends HttpServlet {
 		String username_ = request.getParameter("user");
 		String password_ = request.getParameter("password");
 		//depending if sign in or sign up
+		User u_ = new User();
+		u_.setName(username_);
+
 		if (request.getParameter("signIn") != null) {
-			Object elem = checkAndConnect(username_, password_);
-			if(elem instanceof User) {
-				goToAgenda(request, response, (User) elem);
-				return;
+			u_.setPassword(password_);
+			if(checkAndConnect(u_)) {
+				goToAgenda(request, response, u_);
+				return;//OBLIGATOIRE SI ON VEUT PAS APPELER LE "doGet()" à suivre
 			}	
 		}
 		else if(request.getParameter("signUp") != null) {
-			Object elem = registerNewUser(username_, password_);
-			if(elem instanceof User) {
-				goToAgenda(request, response, (User) elem);
-				return;
-			}
-		}		
+			u_.setPassword(BCrypt.hashpw(password_, BCrypt.gensalt()));
+			u_.addUser();
+		}
+		
 		doGet(request, response);
 	}
 	
@@ -71,29 +74,16 @@ public class Accueil extends HttpServlet {
 		return this.library_user;
 	}
 	
-	private Object checkAndConnect(String s_, String pw_) {//works
+	private Boolean checkAndConnect(User u_) {//works
 		System.out.println("connect");
-		Object elem = getLibraryUser().isUser(s_, pw_);
-		System.out.println(elem);
-		if (elem instanceof User) {
-			return elem;//a User object
+		if (u_.isUser()){
+			return true;//a User object
 		}
 		else {//works
 			return false;
 		}
 	}
 	
-	private Object registerNewUser(String s_, String pw_) {//works
-		Object elem = getLibraryUser().addUser(s_, pw_);
-		if (elem instanceof User) {
-			System.out.println("Welcome " +s_);
-			return elem; //return User
-		}
-		else {
-			System.out.println("Information unavailable");//works
-			return false;
-		}
-	}
 	
 	public void goToAgenda(HttpServletRequest request, HttpServletResponse response, User elem) throws IOException {
 		HttpSession mySession = request.getSession(true);

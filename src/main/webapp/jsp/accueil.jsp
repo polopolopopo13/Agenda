@@ -18,11 +18,11 @@
 		<form action="#" method="Post" id="form_register">
 			<div>
 				<label>Username</label>
-				<input type="text" id="user" name="user">
+				<input type="text" id="user" name="user" required>
 			</div>
 			<div>
 				<label>Password</label>
-				<input type="text" id="password" name="password">
+				<input type="password" id="password" name="password" required>
 			</div>
 			<input type="submit" value="Sign up" name="signUp">
 		
@@ -32,14 +32,14 @@
 
 	<div>
 	<h3>Identification</h3>
-		<form action="#" method="Post" id="form_register">
+		<form action="#" method="Post" id="form_register" required>
 			<div>
 				<label>Username</label>
 				<input type="text" id="user" name="user">
 			</div>
 			<div>
 				<label>Password</label>
-				<input type="text" id="password" name="password">
+				<input type="password" id="password" name="password" required>
 			</div>
 			<input type="submit" value="Sign in" name="signIn">
 		
@@ -59,7 +59,7 @@
 			<% ArrayList<User> all_users = (ArrayList<User>) request.getAttribute("allUsers"); %>
 		<% for(User user_ : all_users) { %>
 		<tr>
-					<td><%= user_.getUserName() %></td>
+					<td><%= user_.getName() %></td>
 					
 					<td><a href= "">Contact</a></td>
 		</tr>
